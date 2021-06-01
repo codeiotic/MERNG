@@ -1,6 +1,7 @@
 import { Card, Icon, Label, Button, Image } from "semantic-ui-react";
 import moment from "moment";
 import { Link } from "react-router-dom";
+import { useState } from "react";
 
 const PostCard = ({
   post: {
@@ -14,8 +15,16 @@ const PostCard = ({
     likes,
   },
 }) => {
+  const [icon, setIcon] = useState("heart outline");
+  const [commentIcon, setCommentIcon] = useState("comments outline");
+
   const likePost = () => {
     console.log("Like Post!!!");
+    if (icon === "heart") {
+      setIcon("heart outline");
+    } else {
+      setIcon("heart");
+    }
   };
 
   const commentOnPost = () => {
@@ -38,20 +47,18 @@ const PostCard = ({
       </Card.Content>
       <Card.Content extra>
         <Button as="div" labelPosition="right" onClick={likePost}>
-          <Button color="teal" basic>
-            <Icon
-              name="heart outline"
-              style={{ color: "teal", fontSize: "16px" }}
-            />
+          <Button className="button">
+            <Icon name={icon} style={{ color: "red", fontSize: "16px" }} />
+            Like
           </Button>
           <Label basic color="teal" pointing="left">
             {likeCount}
           </Label>
         </Button>
         <Button as="div" labelPosition="right" onClick={commentOnPost}>
-          <Button color="blue" basic>
+          <Button color="blue" basic id="commentsBtn">
             <Icon
-              name="comments outline"
+              name={commentIcon}
               style={{ color: "teal", fontSize: "16px" }}
             />
           </Button>
