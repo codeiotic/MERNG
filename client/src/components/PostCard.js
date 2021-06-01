@@ -16,7 +16,6 @@ const PostCard = ({
   },
 }) => {
   const [icon, setIcon] = useState("heart outline");
-  const [commentIcon, setCommentIcon] = useState("comments outline");
 
   const likePost = () => {
     console.log("Like Post!!!");
@@ -58,7 +57,7 @@ const PostCard = ({
         <Button as="div" labelPosition="right" onClick={commentOnPost}>
           <Button color="blue" basic id="commentsBtn">
             <Icon
-              name={commentIcon}
+              name="comments outline"
               style={{ color: "teal", fontSize: "16px" }}
             />
           </Button>
