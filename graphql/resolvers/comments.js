@@ -1,6 +1,7 @@
-const { UserInputError, AuthenticationError } = require("apollo-server");
-const Post = require("../../models/Post");
+const { AuthenticationError, UserInputError } = require("apollo-server");
+
 const checkAuth = require("../../util/check-auth");
+const Post = require("../../models/Post");
 
 module.exports = {
   Mutation: {
@@ -15,6 +16,7 @@ module.exports = {
       }
 
       const post = await Post.findById(postId);
+
       if (post) {
         post.comments.unshift({
           body,
@@ -23,9 +25,7 @@ module.exports = {
         });
         await post.save();
         return post;
-      } else {
-        throw new UserInputError("Post Not Found!");
-      }
+      } else throw new UserInputError("Post Not Found!");
     },
     async deleteComment(_, { postId, commentId }, context) {
       const { username } = checkAuth(context);
