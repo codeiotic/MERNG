@@ -5,20 +5,36 @@
   margin-top: 10px;
 }
 
-.button {
+.likeButton {
   background-color: #87ede8 !important;
   color: black;
   opacity: 0.9;
+  margin-bottom: 10px !important;
 }
 
-.button:hover {
+.likeButton:hover {
   background-color: #35e3f7 !important;
   opacity: 1;
   box-shadow: 0px 2px 6px 0px rgba(53, 52, 52, 0.75) !important;
   transition: all 0.3s ease-in-out !important;
 }
 
+#labelLike {
+  margin-bottom: 10px !important;
+}
+
 .form-container {
   width: 400px;
   margin: auto;
+}
+
+.commentsBtn:hover .originalIcon,
+.commentsBtn .hoveredIcon {
+  transition: all 0.5s ease-in-out !important;
+  display: none;
+}
+.commentsBtn:hover .hoveredIcon {
+  transition: all 0.8s ease-in-out !important;
+  display: inline;
+  font-size: 18px;
 }
