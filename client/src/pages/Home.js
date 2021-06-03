@@ -1,35 +1,19 @@
 import { useQuery } from "@apollo/client";
-import gql from "graphql-tag";
-import { Grid, Card } from "semantic-ui-react";
+import { Grid, Card, Transition } from "semantic-ui-react";
 import PostCard from "../components/PostCard";
 import Skeleton from "react-loading-skeleton";
-
-const FETCH_POSTS_QUERY = gql`
-  {
-    getPosts {
-      id
-      body
-      createdAt
-      username
-      comments {
-        id
-        createdAt
-        username
-        body
-      }
-      commentCount
-      likes {
-        id
-        createdAt
-        username
-      }
-      likeCount
-    }
-  }
-`;
+import { useContext } from "react";
+import { AuthContext } from "../context/auth";
+import PostForm from "../components/PostForm";
+import { FETCH_POSTS_QUERY } from "../util/graphql";
 
 const Home = () => {
-  const { loading, error, data } = useQuery(FETCH_POSTS_QUERY);
+  const { user } = useContext(AuthContext);
+  const {
+    loading,
+    error,
+    data: { getPosts: post } = {},
+  } = useQuery(FETCH_POSTS_QUERY);
 
   if (error) {
     return (
@@ -86,12 +70,19 @@ const Home = () => {
           <h1>Recent Posts</h1>
         </Grid.Row>
         <Grid.Row>
-          {data.getPosts &&
-            data.getPosts.map((post, index) => (
-              <Grid.Column key={index} style={{ marginBottom: "20px" }}>
-                <PostCard post={post} />
-              </Grid.Column>
-            ))}
+          {user && (
+            <Grid.Column>
+              <PostForm />
+            </Grid.Column>
+          )}
+          <Transition.Group duration={200}>
+            {post &&
+              post.map((post, index) => (
+                <Grid.Column key={index} style={{ marginBottom: "20px" }}>
+                  <PostCard post={post} />
+                </Grid.Column>
+              ))}
+          </Transition.Group>
         </Grid.Row>
       </Grid>
     );
