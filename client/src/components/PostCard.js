@@ -1,7 +1,10 @@
 import { Card, Icon, Label, Button, Image } from "semantic-ui-react";
 import moment from "moment";
 import { Link } from "react-router-dom";
-import { useState } from "react";
+import { useContext } from "react";
+import { AuthContext } from "../context/auth";
+import LikeButton from "./LikeButton";
+import DeleteButton from "./DeleteButton";
 
 const PostCard = ({
   post: {
@@ -15,20 +18,7 @@ const PostCard = ({
     likes,
   },
 }) => {
-  const [icon, setIcon] = useState("heart outline");
-
-  const likePost = () => {
-    console.log("Like Post!!!");
-    if (icon === "heart") {
-      setIcon("heart outline");
-    } else {
-      setIcon("heart");
-    }
-  };
-
-  const commentOnPost = () => {
-    console.log("Comment on Post!!!");
-  };
+  const { user } = useContext(AuthContext);
 
   return (
     <Card fluid>
@@ -45,26 +35,27 @@ const PostCard = ({
         <Card.Description>{body}</Card.Description>
       </Card.Content>
       <Card.Content extra>
-        <Button as="div" labelPosition="right" onClick={likePost}>
-          <Button className="button">
-            <Icon name={icon} style={{ color: "red", fontSize: "16px" }} />
-            Like
-          </Button>
-          <Label basic color="teal" pointing="left">
-            {likeCount}
-          </Label>
-        </Button>
-        <Button as="div" labelPosition="right" onClick={commentOnPost}>
-          <Button color="blue" basic id="commentsBtn">
+        <LikeButton post={{ id, likes, likeCount }} user={user} />
+        <Button as="div" labelPosition="right" as={Link} to={`/post/${id}`}>
+          <Button color="blue" basic className="commentsBtn">
             <Icon
               name="comments outline"
-              style={{ color: "teal", fontSize: "16px" }}
+              color="teal"
+              style={{ fontSize: "18px" }}
+              className="originalIcon"
+            />
+            <Icon
+              name="comments"
+              color="teal"
+              className="hoveredIcon"
+              style={{ fontSize: "18px" }}
             />
           </Button>
           <Label basic color="blue" pointing="left">
             {commentCount}
           </Label>
         </Button>
+        {user && user.username === username && <DeleteButton postId={id} />}
       </Card.Content>
     </Card>
   );
