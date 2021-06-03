@@ -15,6 +15,19 @@ const Register = (props) => {
     confirmPassword: "",
   });
 
+  function disabled() {
+    if (
+      values.username !== "" &&
+      values.password !== "" &&
+      values.confirmPassword !== "" &&
+      values.email !== ""
+    ) {
+      return false;
+    } else {
+      return true;
+    }
+  }
+
   const [errors, setErrors] = useState({});
 
   const [addUser, { loading }] = useMutation(REGISTER_USER, {
@@ -73,7 +86,7 @@ const Register = (props) => {
           value={values.confirmPassword}
           onChange={onChange}
         />
-        <Button type="submit" primary>
+        <Button type="submit" disabled={disabled()} primary>
           Register
         </Button>
       </Form>

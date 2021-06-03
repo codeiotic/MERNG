@@ -14,6 +14,14 @@ const Login = (props) => {
     password: "",
   });
 
+  function disabled() {
+    if (values.username !== "" && values.password !== "") {
+      return false;
+    } else {
+      return true;
+    }
+  }
+
   const [loginUser, { loading }] = useMutation(LOGIN_USER, {
     update(_, { data: { login: userData } }) {
       console.log(userData);
@@ -52,7 +60,7 @@ const Login = (props) => {
           value={values.password}
           onChange={onChange}
         ></Form.Input>
-        <Button type="submit" primary>
+        <Button type="submit" primary disabled={disabled()}>
           Login
         </Button>
       </Form>
