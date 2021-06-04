@@ -96,11 +96,7 @@ module.exports = {
 
 > With that, you should be good to go!
 
----
-
 ## Folder Structure of the Project -
-
----
 
 | Folder Name | Description                                    |
 | ----------- | ---------------------------------------------- |
